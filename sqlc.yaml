@@ -5,6 +5,7 @@ packages:
     queries: "./db/query"
     schema: "./db/migration/"
     engine: "postgresql"
+    sql_package: "database/sql"
     emit_json_tags: true
     emit_prepared_queries: false
     emit_interface: false

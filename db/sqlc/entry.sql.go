@@ -10,7 +10,6 @@ import (
 )
 
 const createEntry = `-- name: CreateEntry :one
-
 INSERT INTO entries (account_id, amount) VALUES ($1,$2) RETURNING id, account_id, amount, created_at
 `
 
@@ -19,14 +18,6 @@ type CreateEntryParams struct {
 	Amount    int64 `json:"amount"`
 }
 
-// CREATE TABLE "entries" (
-//
-//	"id" bigserial PRIMARY KEY,
-//	"account_id" bigint NOT NULL,
-//	"amount" bigint NOT NULL,
-//	"created_at" timestamptz NOT NULL DEFAULT (now())
-//
-// );
 func (q *Queries) CreateEntry(ctx context.Context, arg CreateEntryParams) (Entry, error) {
 	row := q.db.QueryRowContext(ctx, createEntry, arg.AccountID, arg.Amount)
 	var i Entry
