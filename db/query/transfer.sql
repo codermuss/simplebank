@@ -8,3 +8,5 @@ created_at
     $1,$2,$3,$4
 ) RETURNING *;
 
+-- name: GetTransfer :one
+SELECT * FROM transfers WHERE id=$1 LIMIT 1;
