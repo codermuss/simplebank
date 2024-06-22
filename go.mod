@@ -1,4 +1,4 @@
-module github.com/techschool/simplebank
+module github.com/mustafayilmazdev/simplebank
 
 go 1.22.1
 
