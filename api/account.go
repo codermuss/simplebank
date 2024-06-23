@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -25,7 +24,6 @@ func (server *Server) createAccount(ctx *gin.Context) {
 		Currency: req.Currency,
 		Balance:  0,
 	}
-	fmt.Println("acc:: ", arg)
 	account, err := server.store.CreateAccount(ctx, arg)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
