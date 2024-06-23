@@ -130,6 +130,7 @@ func TestTransferTxDeadlock(t *testing.T) {
 			fromAccountID = account2.ID
 			toAccountID = account1.ID
 		}
+		fmt.Println(">> x: ", account1.Balance, account2.Balance)
 		go func() {
 			_, err := store.TransferTx(context.Background(), TransferTxParams{
 				FromAccountID: fromAccountID,
@@ -145,4 +146,5 @@ func TestTransferTxDeadlock(t *testing.T) {
 		require.NoError(t, err)
 
 	}
+	fmt.Println(">> after: ", account1.Balance, account2.Balance)
 }
