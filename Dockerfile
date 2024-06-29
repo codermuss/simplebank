@@ -18,6 +18,7 @@ WORKDIR /app
 # the copy file in the builder stage so we specify with --from keyword.
 # builder stage has a binary golang app in /app/main. We take it and copy to current stage /app folder
 COPY --from=builder /app/main .
+COPY app.env .
 
 # it informs the docker the container listens on the 8080 port at runtime
 EXPOSE 8080
