@@ -1,0 +1,24 @@
+services:
+  postgres:
+    image: postgres:12-alpine
+    environment:
+      -  POSTGRES_USER=root
+      -  POSTGRES_PASSWORD=secret
+      -  POSTGRES_DB=simple_bank
+  
+  api:
+    build:
+    # . meanings is current root folder. (Project folder)
+      context: .
+      # Dockerfile is in root of the project
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_SOURCE=postgresql://root:secret@postgres:5432/simple_bank?sslmode=disable
+    # Make sure that the postgres will be started before the api service
+    depends_on:
+      - postgres
+    entrypoint: ["/app/wait-for.sh", "postgres:5432", "--", "/app/start.sh"]
+    command: ["/app/main"]
+
