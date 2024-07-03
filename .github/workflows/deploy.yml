@@ -9,7 +9,7 @@ jobs:
     runs-on:
       ubuntu-latest
       # Service containers to run with `container-job`
-    services:
+    steps:
       - name: Check out code
         uses: actions/checkout@v2
 
