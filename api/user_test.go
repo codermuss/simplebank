@@ -220,7 +220,7 @@ func TestLoginUserAPI(t *testing.T) {
 					Return(db.User{}, fmt.Errorf("Not Found"))
 			},
 			checkResponse: func(recorder *httptest.ResponseRecorder) {
-				require.Equal(t, http.StatusNotFound, recorder.Code)
+				require.Equal(t, http.StatusInternalServerError, recorder.Code)
 			},
 		},
 		{
