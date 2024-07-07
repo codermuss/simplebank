@@ -10,6 +10,7 @@ import (
 // * Note [codermuss]: The values are read by viper from a config file or environment variables.
 
 type Config struct {
+	Environment          string        `mapstructure:"ENVIRONMENT"`
 	DBDriver             string        `mapstructure:"DB_DRIVER"`
 	DBSource             string        `mapstructure:"DB_SOURCE"`
 	MigrationUrl         string        `mapstructure:"MIGRATION_URL"`
