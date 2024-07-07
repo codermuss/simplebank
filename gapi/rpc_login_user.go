@@ -40,12 +40,14 @@ func (server *Server) LoginUser(ctx context.Context, req *simplebank.LoginUserRe
 		return nil, status.Errorf(codes.Internal, "failed to create refresh token: %s", err)
 	}
 
+	mtdt := server.extractMetadata(ctx)
+
 	session, err := server.store.CreateSession(ctx, db.CreateSessionParams{
 		ID:           refreshPayload.ID,
 		Username:     user.Username,
 		RefreshToken: refreshToken,
-		UserAgent:    "",
-		ClientIp:     "p.Addr.String()",
+		UserAgent:    mtdt.UserAgent,
+		ClientIp:     mtdt.ClientIP,
 		IsBlocked:    false,
 		ExpiresAt:    refreshPayload.ExpiredAt,
 	})
