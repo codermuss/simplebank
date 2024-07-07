@@ -8,9 +8,9 @@ COPY . .
 RUN go build -o main main.go
 # alpine linux hasn't curl  
 # add curl
-RUN apk add curl 
+#RUN apk add curl 
 # use curl to download golang migration
-RUN curl -L https://github.com/golang-migrate/migrate/releases/download/v4.17.0/migrate.linux-amd64.tar.gz | tar xvz
+#RUN curl -L https://github.com/golang-migrate/migrate/releases/download/v4.17.0/migrate.linux-amd64.tar.gz | tar xvz
 
 
 # Run stage
@@ -25,11 +25,11 @@ WORKDIR /app
 # builder stage has a binary golang app in /app/main. We take it and copy to current stage /app folder
 COPY --from=builder /app/main .
 # put migrate file same workdir folder 
-COPY --from=builder /app/migrate ./migrate
+#COPY --from=builder /app/migrate ./migrate
 COPY app.env .
 COPY start.sh .
 COPY wait-for.sh .
-COPY db/migration ./migration
+COPY db/migration ./db/migration
 
 # it informs the docker the container listens on the 8080 port at runtime
 EXPOSE 8080
