@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package pb;
+
+
+option go_package = "github.com/mustafayilmazdev/simplebank";
+
+message VerifyEmailRequest{
+    // * Note [codermuss]: field numbers are important to serialize and desiarilize
+    int64 email_id = 1;
+    string secret_code=2;
+}
+
+
+message VerifyEmailResponse{
+    bool is_verified=1;
+}
