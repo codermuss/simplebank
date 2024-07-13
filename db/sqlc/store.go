@@ -2,8 +2,8 @@ package db
 
 import (
 	"context"
-	"database/sql"
-	"fmt"
+
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 // * Note [codermuss]: Make interface for mocking
@@ -18,33 +18,14 @@ type Store interface {
 }
 
 type SQLStore struct {
+	connPool *pgxpool.Pool
 	*Queries
-	db *sql.DB
 }
 
 // * Note [codermuss]: SQL Store implements the Store interface so this func can return SQLStore
-func NewStore(db *sql.DB) Store {
+func NewStore(connPool *pgxpool.Pool) Store {
 	return &SQLStore{
-		db:      db,
-		Queries: New(db),
+		connPool: connPool,
+		Queries:  New(connPool),
 	}
-}
-
-func (store *SQLStore) execTx(ctx context.Context, fn func(*Queries) error) error {
-	tx, err := store.db.BeginTx(ctx, nil)
-	if err != nil {
-		return err
-	}
-	// * Note [codermuss]: Begin db transaction
-	q := New(tx)
-	// * Note [codermuss]: execute query
-	err = fn(q)
-	// * Note [codermuss]: if there is an error Rollback the query
-	if err != nil {
-		if rbErr := tx.Rollback(); rbErr != nil {
-			return fmt.Errorf("tx err: %v, rb err: %v", err, rbErr)
-		}
-		return err
-	}
-	return tx.Commit()
 }
