@@ -24,6 +24,7 @@ import (
 	"github.com/mustafayilmazdev/simplebank/gapi"
 	"github.com/mustafayilmazdev/simplebank/mail"
 	simplebank "github.com/mustafayilmazdev/simplebank/pb"
+
 	"github.com/mustafayilmazdev/simplebank/util"
 	"github.com/mustafayilmazdev/simplebank/worker"
 	"github.com/rakyll/statik/fs"
