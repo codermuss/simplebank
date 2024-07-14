@@ -15,6 +15,7 @@ import (
 )
 
 func (server *Server) LoginUser(ctx context.Context, req *simplebank.LoginUserRequest) (*simplebank.LoginUserResponse, error) {
+
 	if violations := validateLoginUserRequest(req); violations != nil {
 		return nil, invalidArgumentError(violations)
 	}

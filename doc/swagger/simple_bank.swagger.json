@@ -2,11 +2,11 @@
   "swagger": "2.0",
   "info": {
     "title": "Simple Bank API",
-    "version": "1.2",
+    "version": "1.3",
     "contact": {
       "name": "muss",
-      "url": "https://github.com/mustafayilmazdev",
-      "email": "mustafayilmazdev@gmail.com"
+      "url": "https://github.com/codermuss",
+      "email": "codermuss@gmail.com"
     }
   },
   "tags": [
@@ -81,6 +81,40 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/pbLoginUserRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SimpleBank"
+        ]
+      }
+    },
+    "/v1/refresh_token": {
+      "post": {
+        "summary": "Refresh token",
+        "description": "Use this API to refresh user's access token",
+        "operationId": "SimpleBank_RefreshToken",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbRefreshTokenResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbRefreshTokenRequest"
             }
           }
         ],
@@ -222,6 +256,26 @@
           "format": "date-time"
         },
         "refreshTokenExpiresAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "pbRefreshTokenRequest": {
+      "type": "object",
+      "properties": {
+        "refreshToken": {
+          "type": "string"
+        }
+      }
+    },
+    "pbRefreshTokenResponse": {
+      "type": "object",
+      "properties": {
+        "accessToken": {
+          "type": "string"
+        },
+        "accessTokenExpiresAt": {
           "type": "string",
           "format": "date-time"
         }
