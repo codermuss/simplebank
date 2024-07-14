@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package pb;
+
+import "google/protobuf/timestamp.proto";
+option go_package = "github.com/mustafayilmazdev/simplebank";
+
+message ListAccountsRequest{
+    int32 page_id=1;
+    int32 page_size=2;
+}
+
+
+message Accounts{
+    int64  id=1;
+	double balance=2;
+	string currency=3;  
+	google.protobuf.Timestamp created_at=4;
+}
+
+message ListAccountsResponse{
+    repeated Accounts accounts=1;
+}
