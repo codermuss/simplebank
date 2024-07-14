@@ -14,8 +14,8 @@ UPDATE accounts SET balance = balance + $1 WHERE id= $2 RETURNING id, owner, bal
 `
 
 type AddAccountBalanceParams struct {
-	Amount int64 `json:"amount"`
-	ID     int64 `json:"id"`
+	Amount float64 `json:"amount"`
+	ID     int64   `json:"id"`
 }
 
 func (q *Queries) AddAccountBalance(ctx context.Context, arg AddAccountBalanceParams) (Account, error) {
@@ -43,9 +43,9 @@ RETURNING id, owner, balance, currency, created_at
 `
 
 type CreateAccountParams struct {
-	Owner    string `json:"owner"`
-	Balance  int64  `json:"balance"`
-	Currency string `json:"currency"`
+	Owner    string  `json:"owner"`
+	Balance  float64 `json:"balance"`
+	Currency string  `json:"currency"`
 }
 
 func (q *Queries) CreateAccount(ctx context.Context, arg CreateAccountParams) (Account, error) {
@@ -145,8 +145,8 @@ UPDATE accounts SET balance = $2 WHERE id=$1 RETURNING id, owner, balance, curre
 `
 
 type UpdateAccountParams struct {
-	ID      int64 `json:"id"`
-	Balance int64 `json:"balance"`
+	ID      int64   `json:"id"`
+	Balance float64 `json:"balance"`
 }
 
 func (q *Queries) UpdateAccount(ctx context.Context, arg UpdateAccountParams) (Account, error) {

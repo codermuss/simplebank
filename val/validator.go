@@ -64,3 +64,17 @@ func ValidateEmailID(value int64) error {
 func ValidateSecretCode(value string) error {
 	return ValidateString(value, 32, 128)
 }
+
+func ValidatePageID(value int32) error {
+	if value <= 0 {
+		return fmt.Errorf("must be a positive integer")
+	}
+	return nil
+}
+
+func ValidatePageSize(value int32) error {
+	if value < 5 || value > 10 {
+		return fmt.Errorf("must be between 5 and 10")
+	}
+	return nil
+}

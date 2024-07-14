@@ -19,7 +19,7 @@ import (
 )
 
 func TestTransferAPI(t *testing.T) {
-	amount := int64(10)
+	amount := float64(10)
 
 	user1, _ := randomUser(t)
 	user2, _ := randomUser(t)

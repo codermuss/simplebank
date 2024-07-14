@@ -3,6 +3,7 @@ package db
 import (
 	"context"
 	"fmt"
+	"math"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -15,7 +16,7 @@ func TestTransferTx(t *testing.T) {
 
 	// run n concurrent transfer transactions
 	n := 2
-	amount := int64(10)
+	amount := float64(10)
 
 	errs := make(chan error)
 	results := make(chan TransferTxResult)
@@ -32,7 +33,7 @@ func TestTransferTx(t *testing.T) {
 			results <- result
 		}()
 	}
-	existed := make(map[int]bool)
+	existed := make(map[float64]bool)
 	for i := 0; i < n; i++ {
 		err := <-errs
 		require.NoError(t, err)
@@ -87,10 +88,10 @@ func TestTransferTx(t *testing.T) {
 
 		require.Equal(t, diff1, diff2)
 		require.True(t, diff1 > 0)
-		require.True(t, diff1%amount == 0) // 1* amount, 2*amount, 3*amount..., n* amount
+		require.True(t, math.Mod(diff1, amount) == 0) // 1* amount, 2*amount, 3*amount..., n* amount
 
-		k := int(diff1 / amount)
-		require.True(t, k >= 1 && k <= n)
+		k := diff1 / amount
+		require.True(t, k >= 1)
 		require.NotContains(t, existed, k)
 
 		existed[k] = true
@@ -104,8 +105,8 @@ func TestTransferTx(t *testing.T) {
 	require.NoError(t, err)
 	fmt.Println(">> after: ", updateAccount1.Balance, updateAccount2.Balance)
 
-	require.Equal(t, account1.Balance-int64(n)*amount, updateAccount1.Balance)
-	require.Equal(t, account2.Balance+int64(n)*amount, updateAccount2.Balance)
+	require.Equal(t, account1.Balance-float64(n)*amount, updateAccount1.Balance)
+	require.Equal(t, account2.Balance+float64(n)*amount, updateAccount2.Balance)
 
 }
 
@@ -116,7 +117,7 @@ func TestTransferTxDeadlock(t *testing.T) {
 
 	// run n concurrent transfer transactions
 	n := 10
-	amount := int64(10)
+	amount := float64(10)
 
 	errs := make(chan error)
 
