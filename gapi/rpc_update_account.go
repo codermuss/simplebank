@@ -18,7 +18,7 @@ import (
 
 func (server *Server) UpdateAccount(ctx context.Context, req *simplebank.UpdateAccountRequest) (*simplebank.BaseResponse, error) {
 
-	_, err := server.authorizeUser(ctx, []string{util.BankerRole, util.DepositorRole})
+	authPayload, err := server.authorizeUser(ctx, []string{util.BankerRole, util.DepositorRole})
 	if err != nil {
 		return nil, unauthenticatedError(err)
 	}
@@ -31,6 +31,11 @@ func (server *Server) UpdateAccount(ctx context.Context, req *simplebank.UpdateA
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to get account: %s", err)
 	}
+
+	if authPayload.Username != acc.Owner {
+		return nil, status.Error(codes.PermissionDenied, "cannot update other's accounts")
+	}
+
 	arg := db.UpdateAccountParams{
 		ID:      req.AccountId,
 		Balance: req.Balance + acc.Balance,
