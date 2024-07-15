@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package pb;
+
+import "rpc_list_accounts.proto";
+option go_package = "github.com/mustafayilmazdev/simplebank";
+
+message UpdateAccountRequest{
+    int64 account_id=1;
+    double balance=2;
+}
+
+
+message UpdateAccountResponse{
+    Accounts account=1;
+}

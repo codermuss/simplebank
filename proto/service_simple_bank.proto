@@ -11,6 +11,7 @@ import "rpc_refresh_token.proto";
 import "rpc_list_accounts.proto";
 import "rpc_base_response.proto";
 import "rpc_add_account.proto";
+import "rpc_update_account.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
 
@@ -20,7 +21,7 @@ option go_package = "github.com/mustafayilmazdev/simplebank";
 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
     info: {
       title: "Simple Bank API";
-      version: "1.5";
+      version: "1.6";
       contact: {
         name: "muss";
         url: "https://github.com/codermuss";
@@ -98,6 +99,16 @@ service SimpleBank {
         option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
             description: "Use this API to add account to the user";
             summary: "Add account";
+        };
+    }
+    rpc UpdateAccount (UpdateAccountRequest) returns (BaseResponse) {
+        option (google.api.http) = {
+            put: "/v1/update_account"
+            body: "*"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to update user's account";
+            summary: "Update account";
         };
     }
 }

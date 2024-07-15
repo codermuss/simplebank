@@ -87,3 +87,13 @@ func ValidateCurrency(currency string) error {
 	}
 	return nil
 }
+
+func ValidateBalance(value float64) error {
+	if value <= 0 {
+		return fmt.Errorf("must be a positive")
+	}
+	if value >= 1000 {
+		return fmt.Errorf("can't load greater than 1000")
+	}
+	return nil
+}
