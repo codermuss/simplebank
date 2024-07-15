@@ -7,7 +7,6 @@ import (
 	simplebank "github.com/mustafayilmazdev/simplebank/pb"
 	"github.com/mustafayilmazdev/simplebank/util"
 	"github.com/mustafayilmazdev/simplebank/val"
-	"github.com/rs/zerolog/log"
 
 	"google.golang.org/genproto/googleapis/rpc/errdetails"
 	"google.golang.org/grpc/codes"
@@ -31,7 +30,6 @@ func (server *Server) AddAccount(ctx context.Context, req *simplebank.AddAccount
 		Currency: req.Currency,
 		Balance:  0,
 	}
-	log.Info().Msgf("query params: %s", arg)
 	account, err := server.store.CreateAccount(ctx, arg)
 	if err != nil {
 		errCode := db.ErrorCode(err)
