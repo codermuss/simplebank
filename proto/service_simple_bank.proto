@@ -9,6 +9,7 @@ import "rpc_verify_email.proto";
 import "rpc_login_user.proto";
 import "rpc_refresh_token.proto";
 import "rpc_list_accounts.proto";
+import "rpc_base_response.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
 
@@ -79,7 +80,7 @@ service SimpleBank {
             summary: "Refresh token";
         };
     }
-    rpc ListAccounts (ListAccountsRequest) returns (ListAccountsResponse) {
+    rpc ListAccounts (ListAccountsRequest) returns (BaseResponse) {
         option (google.api.http) = {
             get: "/v1/list_accounts"
         };

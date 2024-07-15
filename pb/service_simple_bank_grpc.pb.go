@@ -36,7 +36,7 @@ type SimpleBankClient interface {
 	LoginUser(ctx context.Context, in *LoginUserRequest, opts ...grpc.CallOption) (*LoginUserResponse, error)
 	VerifyEmail(ctx context.Context, in *VerifyEmailRequest, opts ...grpc.CallOption) (*VerifyEmailResponse, error)
 	RefreshToken(ctx context.Context, in *RefreshTokenRequest, opts ...grpc.CallOption) (*RefreshTokenResponse, error)
-	ListAccounts(ctx context.Context, in *ListAccountsRequest, opts ...grpc.CallOption) (*ListAccountsResponse, error)
+	ListAccounts(ctx context.Context, in *ListAccountsRequest, opts ...grpc.CallOption) (*BaseResponse, error)
 }
 
 type simpleBankClient struct {
@@ -97,9 +97,9 @@ func (c *simpleBankClient) RefreshToken(ctx context.Context, in *RefreshTokenReq
 	return out, nil
 }
 
-func (c *simpleBankClient) ListAccounts(ctx context.Context, in *ListAccountsRequest, opts ...grpc.CallOption) (*ListAccountsResponse, error) {
+func (c *simpleBankClient) ListAccounts(ctx context.Context, in *ListAccountsRequest, opts ...grpc.CallOption) (*BaseResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListAccountsResponse)
+	out := new(BaseResponse)
 	err := c.cc.Invoke(ctx, SimpleBank_ListAccounts_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -116,7 +116,7 @@ type SimpleBankServer interface {
 	LoginUser(context.Context, *LoginUserRequest) (*LoginUserResponse, error)
 	VerifyEmail(context.Context, *VerifyEmailRequest) (*VerifyEmailResponse, error)
 	RefreshToken(context.Context, *RefreshTokenRequest) (*RefreshTokenResponse, error)
-	ListAccounts(context.Context, *ListAccountsRequest) (*ListAccountsResponse, error)
+	ListAccounts(context.Context, *ListAccountsRequest) (*BaseResponse, error)
 	mustEmbedUnimplementedSimpleBankServer()
 }
 
@@ -139,7 +139,7 @@ func (UnimplementedSimpleBankServer) VerifyEmail(context.Context, *VerifyEmailRe
 func (UnimplementedSimpleBankServer) RefreshToken(context.Context, *RefreshTokenRequest) (*RefreshTokenResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RefreshToken not implemented")
 }
-func (UnimplementedSimpleBankServer) ListAccounts(context.Context, *ListAccountsRequest) (*ListAccountsResponse, error) {
+func (UnimplementedSimpleBankServer) ListAccounts(context.Context, *ListAccountsRequest) (*BaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListAccounts not implemented")
 }
 func (UnimplementedSimpleBankServer) mustEmbedUnimplementedSimpleBankServer() {}

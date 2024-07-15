@@ -1,0 +1,13 @@
+
+syntax = "proto3";
+
+package pb;
+
+import "google/protobuf/any.proto";
+option go_package = "github.com/mustafayilmazdev/simplebank";
+
+message BaseResponse {
+  int32 code = 1;
+  string message = 2;
+  google.protobuf.Any data = 3; // Using Any type to allow any message type
+}

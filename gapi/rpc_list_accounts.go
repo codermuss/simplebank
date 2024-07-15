@@ -3,18 +3,22 @@ package gapi
 import (
 	"context"
 	"errors"
+	"fmt"
 
 	db "github.com/mustafayilmazdev/simplebank/db/sqlc"
 	simplebank "github.com/mustafayilmazdev/simplebank/pb"
 	"github.com/mustafayilmazdev/simplebank/util"
 	"github.com/mustafayilmazdev/simplebank/val"
+	"github.com/rs/zerolog/log"
 	"google.golang.org/genproto/googleapis/rpc/errdetails"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"google.golang.org/protobuf/types/known/anypb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
-func (server *Server) ListAccounts(ctx context.Context, req *simplebank.ListAccountsRequest) (*simplebank.ListAccountsResponse, error) {
+func (server *Server) ListAccounts(ctx context.Context, req *simplebank.ListAccountsRequest) (*simplebank.BaseResponse, error) {
+	fmt.Println("list acc")
 	authPayload, err := server.authorizeUser(ctx, []string{util.BankerRole, util.DepositorRole})
 	if err != nil {
 		return nil, unauthenticatedError(err)
@@ -27,7 +31,7 @@ func (server *Server) ListAccounts(ctx context.Context, req *simplebank.ListAcco
 	arg := db.ListAccountsParams{
 		Owner:  authPayload.Username,
 		Limit:  req.PageId,
-		Offset: req.PageSize,
+		Offset: (req.PageId - 1) * req.PageSize,
 	}
 
 	accounts, err := server.store.ListAccounts(ctx, arg)
@@ -52,7 +56,20 @@ func (server *Server) ListAccounts(ctx context.Context, req *simplebank.ListAcco
 	rsp := &simplebank.ListAccountsResponse{
 		Accounts: items,
 	}
-	return rsp, nil
+
+	response, err := anypb.New(rsp)
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "%s", &simplebank.BaseResponse{
+			Code: int32(codes.Internal),
+			Data: response,
+		})
+	}
+	log.Info().Msgf("%s", items)
+
+	return &simplebank.BaseResponse{
+		Code: 200,
+		Data: response,
+	}, nil
 }
 
 func validateListAccountsRequest(req *simplebank.ListAccountsRequest) (violations []*errdetails.BadRequest_FieldViolation) {
