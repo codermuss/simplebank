@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "Simple Bank API",
-    "version": "1.5",
+    "version": "1.6",
     "contact": {
       "name": "muss",
       "url": "https://github.com/codermuss",
@@ -197,6 +197,40 @@
         ]
       }
     },
+    "/v1/update_account": {
+      "put": {
+        "summary": "Update account",
+        "description": "Use this API to update user's account",
+        "operationId": "SimpleBank_UpdateAccount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbBaseResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbUpdateAccountRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SimpleBank"
+        ]
+      }
+    },
     "/v1/update_user": {
       "patch": {
         "summary": "Update user",
@@ -376,6 +410,19 @@
         "accessTokenExpiresAt": {
           "type": "string",
           "format": "date-time"
+        }
+      }
+    },
+    "pbUpdateAccountRequest": {
+      "type": "object",
+      "properties": {
+        "accountId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "balance": {
+          "type": "number",
+          "format": "double"
         }
       }
     },
