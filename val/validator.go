@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"net/mail"
 	"regexp"
+
+	"github.com/mustafayilmazdev/simplebank/util"
 )
 
 var (
@@ -75,6 +77,13 @@ func ValidatePageID(value int32) error {
 func ValidatePageSize(value int32) error {
 	if value < 5 || value > 10 {
 		return fmt.Errorf("must be between 5 and 10")
+	}
+	return nil
+}
+
+func ValidateCurrency(currency string) error {
+	if !util.IsSupportedCurrency(currency) {
+		return fmt.Errorf("currency is not supported! Mus Bank suppors these currencies: %s", util.SupportedCurrencies)
 	}
 	return nil
 }

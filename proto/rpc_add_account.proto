@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package pb;
+
+import "rpc_list_accounts.proto";
+option go_package = "github.com/mustafayilmazdev/simplebank";
+
+message AddAccountRequest{
+    string currency=1;
+}
+
+
+message AddAccountResponse{
+    Accounts account=1;
+}
