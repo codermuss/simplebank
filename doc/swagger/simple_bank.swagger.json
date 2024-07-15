@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "Simple Bank API",
-    "version": "1.4",
+    "version": "1.5",
     "contact": {
       "name": "muss",
       "url": "https://github.com/codermuss",
@@ -21,6 +21,40 @@
     "application/json"
   ],
   "paths": {
+    "/v1/add_account": {
+      "post": {
+        "summary": "Add account",
+        "description": "Use this API to add account to the user",
+        "operationId": "SimpleBank_AddAccount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbBaseResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbAddAccountRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SimpleBank"
+        ]
+      }
+    },
     "/v1/create_user": {
       "post": {
         "summary": "Create new user",
@@ -239,6 +273,14 @@
     }
   },
   "definitions": {
+    "pbAddAccountRequest": {
+      "type": "object",
+      "properties": {
+        "currency": {
+          "type": "string"
+        }
+      }
+    },
     "pbBaseResponse": {
       "type": "object",
       "properties": {

@@ -7,6 +7,8 @@ const (
 	TL  = "TL"
 )
 
+var SupportedCurrencies = []string{USD, EUR, CAD, TL}
+
 // * Note [codermuss]: Returns true if the currency is supported
 func IsSupportedCurrency(currency string) bool {
 	switch currency {
